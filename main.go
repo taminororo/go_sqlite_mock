@@ -17,8 +17,14 @@ func main() {
 	defer db.Close()
 
 	// SQL命令には投げっぱなしのCRUD命令、結果がみたい検索命令がある
-	db.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS balances (user_id INTEGER, balance INTEGER);`)
-	db.ExecContext(ctx, `INSERT INTO balances (user_id, balance) VALUES (41, 100);`)
+	_, err = db.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS balances (user_id INTEGER, balance INTEGER);`)
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = db.ExecContext(ctx, `INSERT INTO balances (user_id, balance) VALUES (41, 100);`)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// func (c *Conn) ExecContext(ctx context.Context, query string, args ...any) (Result, error)
 
 	// dbとのコネクションを確保
